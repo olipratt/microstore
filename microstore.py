@@ -14,7 +14,7 @@ api = Api(app,
           version='1.0',
           title='Simple Datastore API',
           description='A simple REST datastore API')
-
+KVSTORE_NAMESPACE_APPS = "apps"
 
 # This collects the API operations into a named group under a root URL.
 apps_ns = api.namespace('apps', description='Operations related to app data')
@@ -39,7 +39,7 @@ class AppsCollection(Resource):
         """
         Returns the list of apps.
         """
-        apps_list = database.apps_list()
+        apps_list = database.keys(KVSTORE_NAMESPACE_APPS)
         return [{'name': app_name} for app_name in apps_list]
 
 
@@ -53,7 +53,7 @@ class AppsResource(Resource):
         """
         Returns the data associated with an app.
         """
-        app_data = database.apps_get(appid)
+        app_data = database.retrieve(KVSTORE_NAMESPACE_APPS, appid)
         if app_data is None:
             return None, 404
         else:
@@ -77,7 +77,9 @@ class AppsResource(Resource):
 
         * Specify the name of the app to modify in the request URL path.
         """
-        database.apps_update(appid, request.get_json()['data'])
+        database.store(KVSTORE_NAMESPACE_APPS,
+                       appid,
+                       request.get_json()['data'])
         return None, 204
 
     @api.response(204, 'App successfully deleted.')
@@ -85,7 +87,7 @@ class AppsResource(Resource):
         """
         Deletes an app.
         """
-        database.apps_delete(appid)
+        database.delete(KVSTORE_NAMESPACE_APPS, appid)
         return None, 204
 
 
