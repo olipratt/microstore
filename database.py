@@ -34,36 +34,51 @@ def term():
     db = None
 
 
-def _access_table(table_name):
-    """Access the apps data database table."""
+def _retrieve_table(table_name):
+    """Retrieve the database table with the supplied name."""
     global db
     assert db is not None
     return db.table(table_name)
 
 
 def store(namespace, key, value):
-    table = _access_table(namespace)
+    """Store a value for the given key in the given namespace, replacing any
+       existing value."""
+    log.debug("Storing value for key: %r", key)
+    table = _retrieve_table(namespace)
     if table.contains(tinydb.where('key') == key):
+        log.debug("Key exists - replacing value")
         table.update({'value': value}, tinydb.where('key') == key)
     else:
+        log.debug("Key does not exist - adding")
         table.insert({'key': key, 'value': value})
 
 
 def retrieve(namespace, key):
-    table = _access_table(namespace)
+    """Retrieve the value stored with a key in the given namespace, or None if
+       no value is stored."""
+    log.debug("Retrieving value for key: %r", key)
+    table = _retrieve_table(namespace)
     element = table.get(tinydb.where('key') == key)
     if element is None:
+        log.debug("No value stored")
         return None
     else:
+        log.debug("Found value")
         return element['value']
 
 
 def delete(namespace, key):
-    table = _access_table(namespace)
+    """Delete a key and its value from the store in the given namespace,
+       whether it exists or not."""
+    log.debug("Deleting value for key: %r", key)
+    table = _retrieve_table(namespace)
     table.remove(tinydb.where('key') == key)
 
 
 def keys(namespace):
-    table = _access_table(namespace)
-    keys = [x["key"] for x in table.all()]
+    """A list of all keys in the given namespace in the store."""
+    log.debug("Listing all stored keys")
+    table = _retrieve_table(namespace)
+    keys = [element["key"] for element in table.all()]
     return keys
