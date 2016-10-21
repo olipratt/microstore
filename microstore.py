@@ -121,5 +121,5 @@ def parse_args(args):
 if __name__ == '__main__':
     args = parse_args(sys.argv)
     kvstore.init(args.backing_file)
-    app.run(debug=True)
+    app.run()
     kvstore.term()
