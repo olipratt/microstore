@@ -1,3 +1,12 @@
+'''
+A simple REST datastore API, which can be in-memory or JSON file backed.
+
+Runs in-memory only by default, or supply a file with `-f`. Run with `-h` for
+full usage options.
+
+Once running, go to the root URL to explore the API using
+[swaggerui](http://swagger.io/swagger-ui/).
+'''
 import logging
 import sys
 import argparse
@@ -14,6 +23,8 @@ api = Api(app,
           version='1.0',
           title='Simple Datastore API',
           description='A simple REST datastore API')
+
+# Namespace to contain the apps data in the key-value store.
 KVSTORE_NAMESPACE_APPS = "apps"
 
 # This collects the API operations into a named group under a root URL.
@@ -39,6 +50,7 @@ class AppsCollection(Resource):
         """
         Returns the list of apps.
         """
+        log.debug("Listing all apps")
         apps_list = kvstore.keys(KVSTORE_NAMESPACE_APPS)
         return [{'name': app_name} for app_name in apps_list]
 
@@ -53,10 +65,13 @@ class AppsResource(Resource):
         """
         Returns the data associated with an app.
         """
+        log.debug("Getting app: %r", appid)
         app_data = kvstore.retrieve(KVSTORE_NAMESPACE_APPS, appid)
         if app_data is None:
+            log.debug("No app found")
             return None, 404
         else:
+            log.debug("Found app")
             return {'name': appid, 'data': app_data}
 
     @api.expect(AppWithData)
@@ -77,6 +92,7 @@ class AppsResource(Resource):
 
         * Specify the name of the app to modify in the request URL path.
         """
+        log.debug("Updating app: %r", appid)
         kvstore.store(KVSTORE_NAMESPACE_APPS,
                       appid,
                       request.get_json()['data'])
@@ -87,6 +103,7 @@ class AppsResource(Resource):
         """
         Deletes an app.
         """
+        log.debug("Deleting app: %r", appid)
         kvstore.delete(KVSTORE_NAMESPACE_APPS, appid)
         return None, 204
 

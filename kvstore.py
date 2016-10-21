@@ -1,3 +1,24 @@
+'''
+A simple key-value store, which can be in-memory or JSON file backed.
+
+>>> import kvstore
+
+>>> kvstore.init()
+
+>>> kvstore.store("mynamespace", "mykey", {"my": "value object"})
+
+>>> kvstore.retrieve("mynamespace", "mykey")
+{"my": "value object"}
+>>> kvstore.keys()
+["mykey"]
+>>> kvstore.delete("mynamespace", "mykey")
+
+>>> kvstore.keys()
+[]
+
+>>> kvstore.term()
+
+'''
 import logging
 import tinydb
 
