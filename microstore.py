@@ -5,7 +5,7 @@ import argparse
 from flask import Flask, request
 from flask_restplus import Resource, Api, fields
 
-import database
+import kvstore
 
 
 log = logging.getLogger(__name__)
@@ -39,7 +39,7 @@ class AppsCollection(Resource):
         """
         Returns the list of apps.
         """
-        apps_list = database.keys(KVSTORE_NAMESPACE_APPS)
+        apps_list = kvstore.keys(KVSTORE_NAMESPACE_APPS)
         return [{'name': app_name} for app_name in apps_list]
 
 
@@ -53,7 +53,7 @@ class AppsResource(Resource):
         """
         Returns the data associated with an app.
         """
-        app_data = database.retrieve(KVSTORE_NAMESPACE_APPS, appid)
+        app_data = kvstore.retrieve(KVSTORE_NAMESPACE_APPS, appid)
         if app_data is None:
             return None, 404
         else:
@@ -77,9 +77,9 @@ class AppsResource(Resource):
 
         * Specify the name of the app to modify in the request URL path.
         """
-        database.store(KVSTORE_NAMESPACE_APPS,
-                       appid,
-                       request.get_json()['data'])
+        kvstore.store(KVSTORE_NAMESPACE_APPS,
+                      appid,
+                      request.get_json()['data'])
         return None, 204
 
     @api.response(204, 'App successfully deleted.')
@@ -87,7 +87,7 @@ class AppsResource(Resource):
         """
         Deletes an app.
         """
-        database.delete(KVSTORE_NAMESPACE_APPS, appid)
+        kvstore.delete(KVSTORE_NAMESPACE_APPS, appid)
         return None, 204
 
 
@@ -103,6 +103,6 @@ def parse_args(args):
 
 if __name__ == '__main__':
     args = parse_args(sys.argv)
-    database.init(args.backing_file)
+    kvstore.init(args.backing_file)
     app.run(debug=True)
-    database.term()
+    kvstore.term()

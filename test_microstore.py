@@ -15,10 +15,10 @@ class MicroStoreTestCase(unittest.TestCase):
         microstore.app.config['TESTING'] = True
         self.app = microstore.app.test_client()
 
-        microstore.database.init()
+        microstore.kvstore.init()
 
     def tearDown(self):
-        microstore.database.term()
+        microstore.kvstore.term()
 
     def test_root(self):
         rv = self.app.get('/')
