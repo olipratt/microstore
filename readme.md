@@ -1,6 +1,6 @@
 # microstore
 
-A simple REST datastore API, which can be in-memory or JSON file backed.
+A simple REST datastore microservice, which can be in-memory or JSON file backed.
 
 Runs in-memory only by default, or supply a file to write to as an argument.
 
