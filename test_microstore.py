@@ -13,9 +13,8 @@ class MicroStoreTestCase(unittest.TestCase):
         # Disable the error catching during request handling so that you get
         # better error reports.
         microstore.app.config['TESTING'] = True
-        self.app = microstore.app.test_client()
-
         microstore.kvstore.init()
+        self.app = microstore.app.test_client()
 
     def tearDown(self):
         microstore.kvstore.term()
@@ -43,7 +42,7 @@ class MicroStoreTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertEqual(json.loads(rv.data.decode()), data)
 
-    def test_apps_delete(self):
+    def test_apps_resource_delete(self):
         app_name = "testapp"
         app_url = '/apps/' + app_name
         data = {"data": {"mykey": "myvalue"}, "name": app_name}
