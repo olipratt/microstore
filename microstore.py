@@ -110,9 +110,17 @@ class AppsResource(Resource):
 
 def parse_args(args):
     parser = argparse.ArgumentParser(description='Simple REST Datastore')
-    parser.add_argument('-f', '--backing-file', metavar='FILE', type=str,
+    parser.add_argument('-f', '--file', metavar='FILE', type=str,
                         default=None,
                         help='name of a file to back the database')
+    parser.add_argument('--host', metavar='IP', type=str,
+                        default=None,
+                        help="hostname to listen on - set this to '0.0.0.0' to"
+                             " have the server available externally as well. "
+                             "Defaults to '127.0.0.1'")
+    parser.add_argument('--port', metavar='PORT', type=int,
+                        default=None,
+                        help='the port of the webserver - defaults to 5000')
 
     args = parser.parse_args()
     return args
@@ -120,6 +128,6 @@ def parse_args(args):
 
 if __name__ == '__main__':
     args = parse_args(sys.argv)
-    kvstore.init(args.backing_file)
-    app.run()
+    kvstore.init(args.file)
+    app.run(host=args.host, port=args.port)
     kvstore.term()
