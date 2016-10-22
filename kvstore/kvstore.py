@@ -9,13 +9,12 @@ A simple key-value store, which can be in-memory or JSON file backed.
 
 >>> kvstore.retrieve("mynamespace", "mykey")
 {"my": "value object"}
->>> kvstore.keys()
+>>> kvstore.keys("mynamespace")
 ["mykey"]
 >>> kvstore.delete("mynamespace", "mykey")
 
->>> kvstore.keys()
+>>> kvstore.keys("mynamespace")
 []
-
 >>> kvstore.close()
 
 '''
