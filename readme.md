@@ -1,6 +1,6 @@
 # microstore
 
-A minimal Python REST datastore microservice, which can be in-memory or JSON file backed.
+A minimal Python REST microservice datastore, which can be in-memory or JSON file backed.
 
 Runs in-memory only by default, or file-backed if a file name is supplied as a command line argument.
 
@@ -28,7 +28,7 @@ Run the tests by similarly running `python test_microstore.py`.
 
 ## Usage
 
-You can explore the API using Swagger UI by just opening the root URL that is printed to the terminal when you run the server in your web browser - see an example image of this running below.
+You can explore the API using Swagger UI by opening the base URL (that is printed to the terminal when you run the server) in your web browser - see an example image of this in action below.
 
 In short though, you can `PUT` JSON data to `/apps/<your-app-name-here>` as the `data` key of an object:
 
