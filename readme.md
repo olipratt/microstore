@@ -46,7 +46,7 @@ and later retrieve it with a `GET` on the same URL, `DELETE` it, or replace it w
 
 ## Limitations
 
-- Not production ready. This is designed for simple prototyping use, not performance at huge load and does not meet production security requirements.
+- Not production ready. This is designed for simple prototyping use, not for performance at huge load, and does not meet production security requirements.
 
 - Single threaded. Flask will run single-threaded by default, creating a single synchronous server on a single thread capable of serving only one client at a time, and TinyDB does not support threaded access.
 
