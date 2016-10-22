@@ -121,6 +121,8 @@ def parse_args(args):
     parser.add_argument('--port', metavar='PORT', type=int,
                         default=None,
                         help='the port of the webserver - defaults to 5000')
+    parser.add_argument('--debug', action='store_true', default=False,
+                        help='turn on debug logging')
 
     args = parser.parse_args()
     return args
@@ -128,6 +130,10 @@ def parse_args(args):
 
 if __name__ == '__main__':
     args = parse_args(sys.argv)
+
+    logging.basicConfig(format='%(asctime)-15s:%(message)s',
+                        level=logging.DEBUG if args.debug else logging.INFO)
+
     kvstore.init(args.file)
     app.run(host=args.host, port=args.port)
     kvstore.term()
