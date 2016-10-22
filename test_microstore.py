@@ -13,11 +13,11 @@ class MicroStoreTestCase(unittest.TestCase):
         # Disable the error catching during request handling so that you get
         # better error reports.
         microstore.app.config['TESTING'] = True
-        microstore.kvstore.init()
+        microstore.kvstore.open()
         self.app = microstore.app.test_client()
 
     def tearDown(self):
-        microstore.kvstore.term()
+        microstore.kvstore.close()
 
     def test_root(self):
         rv = self.app.get('/')

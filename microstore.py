@@ -139,6 +139,6 @@ if __name__ == '__main__':
                     "when the server stops. Supply a filename to store data "
                     "on disk in a persistent way.")
 
-    kvstore.init(args.file)
+    kvstore.open(args.file)
     app.run(host=args.host, port=args.port)
-    kvstore.term()
+    kvstore.close()

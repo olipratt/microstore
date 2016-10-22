@@ -1,3 +1,3 @@
-from .kvstore import init, term, store, retrieve, delete, keys
+from .kvstore import open, close, store, retrieve, delete, keys
 
-__all__ = ["init", "term", "store", "retrieve", "delete", "keys"]
+__all__ = ["open", "close", "store", "retrieve", "delete", "keys"]

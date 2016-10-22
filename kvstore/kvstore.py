@@ -3,7 +3,7 @@ A simple key-value store, which can be in-memory or JSON file backed.
 
 >>> import kvstore
 
->>> kvstore.init()
+>>> kvstore.open()
 
 >>> kvstore.store("mynamespace", "mykey", {"my": "value object"})
 
@@ -16,7 +16,7 @@ A simple key-value store, which can be in-memory or JSON file backed.
 >>> kvstore.keys()
 []
 
->>> kvstore.term()
+>>> kvstore.close()
 
 '''
 import logging
@@ -29,7 +29,7 @@ log = logging.getLogger(__name__)
 db = None
 
 
-def init(backing_file=None):
+def open(backing_file=None):
     """Open the global database instance.
 
     :param backing_file: Name of file to back the database - None for in-memory
@@ -45,7 +45,7 @@ def init(backing_file=None):
         db = tinydb.TinyDB(backing_file)
 
 
-def term():
+def close():
     """Close the global database instance."""
     log.debug("Closing database instance")
     global db
