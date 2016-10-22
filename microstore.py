@@ -115,9 +115,9 @@ def parse_args(args):
                         help='name of a file to back the database')
     parser.add_argument('--host', metavar='IP', type=str,
                         default=None,
-                        help="hostname to listen on - set this to '0.0.0.0' to"
-                             " have the server available externally as well. "
-                             "Defaults to '127.0.0.1'")
+                        help="hostname to listen on - set this to '0.0.0.0' "
+                             "to have the server available externally as "
+                             "well. Defaults to '127.0.0.1'")
     parser.add_argument('--port', metavar='PORT', type=int,
                         default=None,
                         help='the port of the webserver - defaults to 5000')
@@ -133,6 +133,11 @@ if __name__ == '__main__':
 
     logging.basicConfig(format='%(asctime)-15s:%(message)s',
                         level=logging.DEBUG if args.debug else logging.INFO)
+
+    if args.file is None:
+        log.warning("WARNING: Storing data in-memory only - it will be lost "
+                    "when the server stops. Supply a filename to store data "
+                    "on disk in a persistent way.")
 
     kvstore.init(args.file)
     app.run(host=args.host, port=args.port)
