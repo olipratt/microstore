@@ -28,9 +28,13 @@ Run the tests by similarly running `python test_microstore.py`.
 
 ## Usage
 
-You can explore the API using Swagger UI by opening the base URL (that is printed to the terminal when you run the server) in your web browser - see an example image of this in action below.
+**NOTE:** All API methods are behind a `/api` base URL (Swagger UI hides this away at the very bottom of the web page).
 
-In short though, you can `PUT` JSON data to `/apps/<your-app-name-here>` as the `data` key of an object:
+You can explore the API using Swagger UI by opening the root URL (that is printed to the terminal when you run the server) in your web browser - see an example image of this in action below.
+
+You can integrate with a client that supports swagger/OpenAPI schemas by just reading the schema directly from `/api/schema`.
+
+In short though, you can `PUT` JSON data to `/api/apps/<your-app-name-here>` as the `data` key of an object:
 
 ```javascript
 {
