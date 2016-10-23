@@ -27,8 +27,9 @@ api = Api(app,
 # Namespace to contain the apps data in the key-value store.
 KVSTORE_NAMESPACE_APPS = "apps"
 
-# This collects the API operations into a named group under a root URL.
-apps_ns = api.namespace('apps', description='Operations related to app data')
+# This collects the API operations into named groups under a root URL.
+apps_ns = api.namespace('apps', description='App data related operations')
+schema_ns = api.namespace('schema', description="This API's schema operations")
 
 
 # Specifications of the objects accepted/returned by the API.
@@ -39,6 +40,18 @@ App = api.model('App', {
 AppWithData = api.inherit('App with data', App, {
     'data': fields.Raw(required=True, description='App data'),
 })
+
+
+@schema_ns.route('')
+class SchemaResource(Resource):
+    """Resource allowing access to the OpenAPI schema for the entire API."""
+
+    def get(self):
+        """
+        Return the OpenAPI schema.
+        """
+        log.debug("Generating schema")
+        return api.__schema__
 
 
 @apps_ns.route('')
