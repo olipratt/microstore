@@ -39,13 +39,15 @@ schema_ns = api.namespace('schema', description="This API's schema operations")
 
 
 # Specifications of the objects accepted/returned by the API.
-App = api.model('App', {
+AppName = api.model('App name', {
     'name': fields.String(required=True, description='App name'),
 })
 
-AppWithData = api.inherit('App with data', App, {
+AppData = api.model('App data', {
     'data': fields.Raw(required=True, description='App data'),
 })
+
+AppWithData = api.inherit('App with data', AppName, AppData)
 
 
 @schema_ns.route('')
@@ -64,7 +66,7 @@ class SchemaResource(Resource):
 class AppsCollection(Resource):
     """ Collection resource containing all apps. """
 
-    @api.marshal_list_with(App)
+    @api.marshal_list_with(AppName)
     def get(self):
         """
         Returns the list of apps.
@@ -93,7 +95,7 @@ class AppsResource(Resource):
             log.debug("Found app")
             return {'name': appid, 'data': app_data}
 
-    @api.expect(AppWithData)
+    @api.expect(AppData)
     @api.response(204, 'App successfully updated.')
     def put(self, appid):
         """
