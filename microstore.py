@@ -19,10 +19,16 @@ import kvstore
 
 log = logging.getLogger(__name__)
 app = Flask(__name__)
+
+# Use a non-empty 'prefix' (becomes swagger 'basePath') for interop reasons -
+# if it's empty then the basePath is '/', which with an API enpoint appended
+# becomes '//<endpoint>' (because they are always prefixed themselves with a
+# '/') and that is not equivalent to '/<endpoint'.
 api = Api(app,
           version='1.0',
           title='Simple Datastore API',
-          description='A simple REST datastore API')
+          description='A simple REST datastore API',
+          prefix='/api')
 
 # Namespace to contain the apps data in the key-value store.
 KVSTORE_NAMESPACE_APPS = "apps"
