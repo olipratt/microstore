@@ -40,11 +40,15 @@ schema_ns = api.namespace('schema', description="This API's schema operations")
 
 # Specifications of the objects accepted/returned by the API.
 AppName = api.model('App name', {
-    'name': fields.String(required=True, description='App name'),
+    'name': fields.String(required=True,
+                          description='App name',
+                          example="My App"),
 })
 
 AppData = api.model('App data', {
-    'data': fields.Raw(required=True, description='App data'),
+    'data': fields.Raw(required=True,
+                       description='App data',
+                       example={"any_data": "you_like_goes_here"}),
 })
 
 AppWithData = api.inherit('App with data', AppName, AppData)
@@ -95,7 +99,7 @@ class AppsResource(Resource):
             log.debug("Found app")
             return {'name': appid, 'data': app_data}
 
-    @api.expect(AppData)
+    @api.expect(AppData, validate=True)
     @api.response(204, 'App successfully updated.')
     def put(self, appid):
         """
