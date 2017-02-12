@@ -24,6 +24,7 @@ app = Flask(__name__)
 # if it's empty then the basePath is '/', which with an API enpoint appended
 # becomes '//<endpoint>' (because they are always prefixed themselves with a
 # '/') and that is not equivalent to '/<endpoint'.
+API_URL_PREFIX = '/api'
 api = Api(app,
           version='1.0',
           title='Simple Datastore API',

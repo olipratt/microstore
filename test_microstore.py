@@ -16,8 +16,6 @@ class MicroStoreTestCase(unittest.TestCase):
         microstore.kvstore.open()
         self.app = microstore.app.test_client()
 
-        self.url_prefix = "/api"
-
     def tearDown(self):
         microstore.kvstore.close()
 
@@ -26,13 +24,13 @@ class MicroStoreTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
 
     def test_apps_collection_empty(self):
-        rv = self.app.get(self.url_prefix + '/apps')
+        rv = self.app.get(microstore.API_URL_PREFIX + '/apps')
         self.assertEqual(rv.status_code, 200)
         self.assertEqual(json.loads(rv.data.decode()), [])
 
     def test_apps_resource(self):
         app_name = "testapp"
-        app_url = self.url_prefix + '/apps/' + app_name
+        app_url = microstore.API_URL_PREFIX + '/apps/' + app_name
         data = {"data": {"mykey": "myvalue"}, "name": app_name}
 
         rv = self.app.put(app_url,
@@ -46,7 +44,7 @@ class MicroStoreTestCase(unittest.TestCase):
 
     def test_apps_resource_delete(self):
         app_name = "testapp"
-        app_url = self.url_prefix + '/apps/' + app_name
+        app_url = microstore.API_URL_PREFIX + '/apps/' + app_name
         data = {"data": {"mykey": "myvalue"}, "name": app_name}
 
         rv = self.app.put(app_url,
@@ -65,7 +63,7 @@ class MicroStoreTestCase(unittest.TestCase):
 
     def test_apps_collection_populated(self):
         app_name = "testapp"
-        app_url = self.url_prefix + '/apps/' + app_name
+        app_url = microstore.API_URL_PREFIX + '/apps/' + app_name
         data = {"data": {"mykey": "myvalue"}, "name": app_name}
 
         rv = self.app.put(app_url,
@@ -74,7 +72,7 @@ class MicroStoreTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 204)
 
         app_name2 = "testapp2"
-        app_url2 = self.url_prefix + '/apps/' + app_name2
+        app_url2 = microstore.API_URL_PREFIX + '/apps/' + app_name2
         data2 = {"data": {"mykey": "myvalue"}, "name": app_name2}
 
         rv = self.app.put(app_url2,
@@ -82,7 +80,7 @@ class MicroStoreTestCase(unittest.TestCase):
                           content_type=CONTENT_TYPE_JSON)
         self.assertEqual(rv.status_code, 204)
 
-        rv = self.app.get(self.url_prefix + '/apps')
+        rv = self.app.get(microstore.API_URL_PREFIX + '/apps')
         self.assertEqual(rv.status_code, 200)
         self.assertEqual(json.loads(rv.data.decode()),
                          [{"name": app_name}, {"name": app_name2}])
