@@ -134,7 +134,7 @@ class AppsResource(Resource):
         return None, 204
 
 
-def parse_args(args):
+def parse_args(raw_args):
     parser = argparse.ArgumentParser(description='Simple REST Datastore')
     parser.add_argument('-f', '--file', metavar='FILE', type=str,
                         default=None,
@@ -150,12 +150,12 @@ def parse_args(args):
     parser.add_argument('--debug', action='store_true', default=False,
                         help='turn on debug logging')
 
-    args = parser.parse_args()
-    return args
+    parsed_args = parser.parse_args(raw_args)
+    return parsed_args
 
 
 if __name__ == '__main__':
-    args = parse_args(sys.argv)
+    args = parse_args(sys.argv[1:])
 
     logging.basicConfig(format='%(asctime)-15s:%(message)s',
                         level=logging.DEBUG if args.debug else logging.INFO)
