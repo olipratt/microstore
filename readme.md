@@ -8,23 +8,25 @@ Once running, go to the root URL to explore the API using [Swagger UI](http://sw
 
 ## Setup
 
+Requires at least Python 3, tested with 3.5.
+
 Relies on [Flask](http://flask.pocoo.org/docs/0.11/) and [Flask-RESTPlus](https://flask-restplus.readthedocs.io/en/stable/index.html) for the webserver and REST API, and [TinyDB](https://tinydb.readthedocs.io/en/latest/) for the JSON database.
 
-```shell
-$ pip install flask flask-restplus tinydb
-```
+To get these clone the repository, open a terminal inside the repository directory and run:
 
-Then just clone or download and extract this repository to get started.
+```shell
+$ pip install -r requirements.txt
+```
 
 ## Running
 
 Run with `-h` for full usage options.
 
 ```shell
-$ python microstore.py
+$ python microstore.py -h
 ```
 
-Run the tests by similarly running `python test_microstore.py`.
+Run the tests with `python test_microstore.py`.
 
 ## Usage
 

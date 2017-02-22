@@ -1,0 +1,4 @@
+Flask==0.12
+flask-restplus==0.9.2
+requests==2.13.0
+tinydb==3.2.1
