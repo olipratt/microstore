@@ -50,6 +50,17 @@ and later retrieve it with a `GET` on the same URL, `DELETE` it, or replace it w
 
 ![Swagger UI example](images/swaggerui.png "Swagger UI example")
 
+## Running in Docker
+
+A dockerfile is included to create a containerised microservice - build and run from the repository directory with:
+
+```
+sudo docker build -t microstore:latest .
+sudo docker run -p 5000:5000 microstore
+```
+
+Now you can navigate to `http://127.0.0.1:5000/` in your web browser to access the SwaggerUI of the container.
+
 ## Limitations
 
 - Not production ready. This is designed for simple prototyping use, not for performance at huge load, and does not meet production security requirements.
